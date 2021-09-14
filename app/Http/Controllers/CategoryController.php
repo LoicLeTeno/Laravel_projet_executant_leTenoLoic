@@ -14,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categorys = Category::all();
+        return view('backOffice.pages.categories', compact('categorys'));
     }
 
     /**
@@ -24,7 +25,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('backOffice.partials.categories.create');
     }
 
     /**
@@ -35,7 +36,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'name' => ['required']
+        ]);
+        
+        $store = new Category;
+        $store->name = $request->name;
+        $store->save();
+
+        return redirect('back-office/photos')->with('Validate', 'Categorie Créée');
     }
 
     /**
@@ -78,8 +87,11 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $destroy = Category::find($id);
+        $destroy->delete();
+
+        return redirect('/back-office/categories');
     }
 }

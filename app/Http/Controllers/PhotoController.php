@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
 {
@@ -14,7 +16,8 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        //
+        $photos = Photo::all();
+        return view('backOffice.pages.pictures', compact('photos'));
     }
 
     /**
@@ -24,7 +27,8 @@ class PhotoController extends Controller
      */
     public function create()
     {
-        //
+        $categorys = Category::all();
+        return view('backOffice.partials.pictures.create', compact('categorys'));
     }
 
     /**
@@ -35,7 +39,17 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'src' => ['required'],
+            'category_id' => ['required'],
+        ]);
+
+        $store = new Photo;
+        Storage::put('public/img/photos', $request->file('src'));
+        $store->category_id = $request->category_id;
+        $store->save();
+
+        return redirect('back-office/photos')->with('Validate', 'photo ajoutée');
     }
 
     /**
@@ -57,7 +71,8 @@ class PhotoController extends Controller
      */
     public function edit(Photo $photo)
     {
-        //
+        $categorys = Category::all();
+        return view('backOffice.partials.pictures.edit', compact('categorys'));
     }
 
     /**
@@ -67,9 +82,26 @@ class PhotoController extends Controller
      * @param  \App\Models\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Photo $photo)
+    public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'src' => ['required'],
+            'category_id' => ['required'],
+        ]);
+
+        $update = Photo::find($id);
+        $update->category_id = $request->category_id;
+        if ($request->src != null) {
+            Storage::delete('public/img/photos' . $update->src);
+            Storage::put('public/img/photos', $request->file('src'));
+            $photo = new Photo;
+            $photo->src = $request->file('src')->hashName();
+            $photo->save();
+            $update->photo_id = $photo->id;
+        }
+        $update->save();
+
+        return redirect('back-office/photos')->with('Validate', 'photo modifiée');
     }
 
     /**
@@ -78,8 +110,12 @@ class PhotoController extends Controller
      * @param  \App\Models\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Photo $photo)
+    public function destroy($id)
     {
-        //
+        $destroy = Photo::find($id);
+        Storage::delete('public/storage/img/photos' . $destroy->src);
+        $destroy->delete();
+
+        return redirect('/back-office/photos');
     }
 }

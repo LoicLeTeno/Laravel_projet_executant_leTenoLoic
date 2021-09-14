@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Avatar;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        return view('backOffice.pages.users', compact('users'));
     }
 
     /**
@@ -24,7 +27,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        $avatars = Avatar::all();
+
+        return view('backOffice.partials.users.create', compact('roles', 'avatars'));
     }
 
     /**
@@ -44,9 +50,13 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        //
+        $users = User::find($id);
+        $roles = Role::all();
+        $avatars = Avatar::all();
+
+        return view('backOffice.partials.users.edit', compact('users', 'roles', 'avatars'));
     }
 
     /**
@@ -57,7 +67,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $roles = Role::all();
+        $avatars = Avatar::all();
+
+        return view('backOffice.partials.users.edit', compact('roles', 'avatars'));
     }
 
     /**

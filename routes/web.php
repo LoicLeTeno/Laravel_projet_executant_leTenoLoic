@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AvatarController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +25,15 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::get('/back-office/gallery', function () {
+    return view('backOffice.pages.gallery');
+});
+
 require __DIR__.'/auth.php';
+
+
+// Route Ressource
+Route::resource('back-office/users', UserController::class);
+Route::resource('back-office/avatars', AvatarController::class);
+Route::resource('back-office/photos', PhotoController::class);
+Route::resource('back-office/categories', CategoryController::class);

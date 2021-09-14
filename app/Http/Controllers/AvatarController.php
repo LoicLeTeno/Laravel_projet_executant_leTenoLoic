@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Avatar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AvatarController extends Controller
 {
@@ -14,7 +15,8 @@ class AvatarController extends Controller
      */
     public function index()
     {
-        //
+        $avatars = Avatar::all();
+        return view('backOffice.pages.avatars', compact('avatars'));
     }
 
     /**
@@ -24,7 +26,7 @@ class AvatarController extends Controller
      */
     public function create()
     {
-        //
+        return view('backOffice.partials.avatars.create');
     }
 
     /**
@@ -35,7 +37,16 @@ class AvatarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'src' => ['required']
+        ]);
+
+        $store = new Avatar;
+        Storage::put('public/img/avatars', $request->file('src'));
+        $store->src = $request->file('src')->hashName();
+        $store->save();
+
+        return redirect('back-office/avatars')->with('Validate', 'Avatar ajouté');
     }
 
     /**
@@ -44,7 +55,7 @@ class AvatarController extends Controller
      * @param  \App\Models\Avatar  $avatar
      * @return \Illuminate\Http\Response
      */
-    public function show(Avatar $avatar)
+    public function show($id)
     {
         //
     }
@@ -78,8 +89,13 @@ class AvatarController extends Controller
      * @param  \App\Models\Avatar  $avatar
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Avatar $avatar)
+    public function destroy($id)
     {
-        //
+        $destroy = Avatar::find($id);
+        Storage::delete('public/storage/img/avatars' . $destroy->src);
+        $destroy->delete();
+
+        return redirect('/back-office/avatars');
     }
+
 }

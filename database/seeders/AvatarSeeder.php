@@ -22,16 +22,13 @@ class AvatarSeeder extends Seeder
                 'src' => 'anonyme.png',
             ],
             [
-                'src' => 'membre-1.jpg',
+                'src' => 'membre-1.png',
             ],
             [
-                'src' => 'membre-2.jpg',
+                'src' => 'membre-2.png',
             ],
             [
-                'src' => 'membre-3.jpg',
-            ],
-            [
-                'src' => 'membre-4.jpg',
+                'src' => 'membre-3.png',
             ],
         ]);
     }
