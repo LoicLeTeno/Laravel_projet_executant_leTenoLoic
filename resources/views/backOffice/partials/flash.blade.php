@@ -8,7 +8,7 @@
 {{--message en cas de warning--}}
 @if($message = Session::get("warning"))
     <div class="alert alert-warning alert-block">
-        <strong>{{$message}}</strong>
+        <p class="text-gray-700">{{$message}}</p>
     </div>
 @endif    
 

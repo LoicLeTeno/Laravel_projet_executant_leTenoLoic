@@ -17,7 +17,9 @@ class PhotoController extends Controller
     public function index()
     {
         $photos = Photo::all();
-        return view('backOffice.pages.pictures', compact('photos'));
+        $categorys = Category::all();
+
+        return view('backOffice.pages.pictures', compact('photos', 'categorys'));
     }
 
     /**
@@ -46,6 +48,7 @@ class PhotoController extends Controller
 
         $store = new Photo;
         Storage::put('public/img/photos', $request->file('src'));
+        $store->src = $request->file('src')->hashName();
         $store->category_id = $request->category_id;
         $store->save();
 

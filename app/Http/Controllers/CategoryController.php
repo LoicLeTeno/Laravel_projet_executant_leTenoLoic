@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -15,7 +16,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categorys = Category::all();
-        return view('backOffice.pages.categories', compact('categorys'));
+        $photos = Photo::all();
+
+        return view('backOffice.pages.categories', compact('categorys', 'photos'));
     }
 
     /**

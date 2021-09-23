@@ -14,7 +14,7 @@
                             @foreach ($users as $user)
                                 <div>
                                     <div class="flex justify-end">
-                                        <form action="/back-office/avatars/{{ $user->id }}" method="POST">
+                                        <form action="/back-office/users/{{ $user->id }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger text-white" type="submit">X</button>
@@ -31,7 +31,9 @@
 
                                                 <hr>
 
-                                                <a href="#" class="btn btn-info">Modifier</a>
+                                                <a href="/back-office/users/{{ $user->id }}/edit">
+                                                    <button class="btn btn-info text-white" type="submit">Modifier</button>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
