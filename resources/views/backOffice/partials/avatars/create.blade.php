@@ -1,5 +1,3 @@
-@include('backOffice.partials.flash')
-
 <form action="/back-office/avatars" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="flex mb-20">

@@ -7,6 +7,7 @@
     
     <main class="container justify-center">
         @include('backOffice.partials.flash')
+        
         <form action="/back-office/users/{{ $edit->id }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')

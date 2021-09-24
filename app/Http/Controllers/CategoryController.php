@@ -47,7 +47,7 @@ class CategoryController extends Controller
         $store->name = $request->name;
         $store->save();
 
-        return redirect('back-office/photos')->with('Validate', 'Categorie Créée');
+        return redirect('back-office/categories')->with('Validate', 'Categorie Créée');
     }
 
     /**
@@ -56,9 +56,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        $categorys = Category::find($id);
+        $photos = Photo::all();
+
+        return view('backOffice.partials.categories.show', compact('categorys', 'photos'));
     }
 
     /**
@@ -67,9 +70,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        //
+        $categorys = Category::find($id);
+        $photos = Photo::all();
+
+        return view('backOffice.partials.categories.edit', compact('categorys', 'photos'));
     }
 
     /**
@@ -79,9 +85,17 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'name' => ['required']
+        ]);
+        
+        $update = Category::find($id);
+        $update->name = $request->name;
+        $update->save();
+
+        return redirect('back-office/categories/' .$update->id)->with('Validate', 'Categorie Créée');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Avatar;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        $avatars = Avatar::all();
+        return view('auth.register', compact('avatars'));
     }
 
     /**
@@ -36,7 +38,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:150'],
             'nickName' => ['required', 'string', 'max:150'],
-            'year' => ['required', 'integer', 'lte:18', 'gte:80'],
+            'year' => ['required', 'integer', 'gte:18', 'lte:80'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'avatar_id' => ['required'],

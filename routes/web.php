@@ -4,6 +4,8 @@ use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UserController;
+use App\Models\Category;
+use App\Models\Photo;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +28,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/back-office/gallery', function () {
-    return view('backOffice.pages.gallery');
+    $photos = Photo::all();
+    $categorys = Category::all();
+
+    return view('backOffice.pages.gallery', compact('photos', 'categorys'));
 });
 
 require __DIR__.'/auth.php';

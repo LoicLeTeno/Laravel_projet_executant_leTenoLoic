@@ -6,6 +6,7 @@
     </x-slot>
 
     <main class="container">
+        @include('backOffice.partials.flash')
         <div class="py-12">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
@@ -28,9 +29,9 @@
                                         <td>{{ $category->name }}</td>
                                         <td>nb photos</td>
                                         <td> 
-                                            <a href="/back-office/categories/{{ $category->id }}">
+                                            {{-- <a href="/back-office/categories/{{ $category->id }}">
                                                 <button class="btn btn-success text-white" type="submit">Show</button>
-                                            </a>
+                                            </a> --}}
                                         </td>
                                         <td>
                                             <a href="/back-office/categories/{{ $category->id }}/edit">
